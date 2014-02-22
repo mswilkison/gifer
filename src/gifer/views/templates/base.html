@@ -2,27 +2,21 @@
 <html>
   <head>
     <title>Welcome to gifer</title>
-    <script>
-        function myFunction() {
-          alert("click!");
-        }
-    </script>
-      {% script "/js/MediaStreamRecorder.js" %}
-    <script>
+<!--    <script>
     function initStream() {
        var mediaConstraints = {
             video: true
         };
 
-        var videosContainer = document.getElementById('video-container');
+        var videosContainer = document.getElementById('videos-container');
 
-        function successCallback(stream) {
+        var successCallback = function(stream) {
             var inVideo = document.createElement('video');
             inVideo.src = window.URL.createObjectURL(stream);
             inVideo.play();
             videosContainer.appendChild(inVideo);
 
-            var mediaRecorder = new MediaStreamRecorder(stream);
+            var mediaRecorder = new MediaRecorder(stream);
 
             mediaRecorder.mimeType = 'image/gif';
 
@@ -38,7 +32,7 @@
             mediaRecorder.start(3000);
         };
 
-        function errorCallback(e) {
+        var errorCallback = function(e) {
           console.log("Failed to create video stream!", e);
         };
 
@@ -47,6 +41,9 @@
         }
     }
     </script>
+-->
+
+        <script src="//www.webrtc-experiment.com/MediaStreamRecorder.js"> </script>
 
   </head>
   <body>
@@ -70,6 +67,53 @@
       {% endblock %}
     </div>
     <!-- scripts and styles -->
+              <script>
+            var mediaConstraints = { video: true };
+            navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+
+            function onMediaSuccess(stream) {
+                var video = document.createElement('video');
+
+                var videoWidth = 320;
+                var videoHeight = 240;
+
+                video = mergeProps(video, {
+                    width: videoWidth,
+                    height: videoHeight,
+                    src: URL.createObjectURL(stream)
+                });
+                video.play();
+
+                videosContainer.appendChild(video);
+                videosContainer.appendChild(document.createElement('hr'));
+
+                var mediaRecorder = new MediaStreamRecorder(stream);
+                mediaRecorder.mimeType = 'image/gif'; // this line is mandatory
+                mediaRecorder.videoWidth  = videoWidth;
+                mediaRecorder.videoHeight = videoHeight;
+                mediaRecorder.ondataavailable = function(blob) {
+                    var a = document.createElement('a');
+                    a.target = '_blank';
+                    a.innerHTML = 'Open Recorded Video No. ' + (index++);
+
+                    a.href = URL.createObjectURL(blob);
+
+                    videosContainer.appendChild(a);
+                    videosContainer.appendChild(document.createElement('hr'));
+                };
+
+                // get blob after each 5 second!
+                mediaRecorder.start(5 * 1000);
+            }
+
+            function onMediaError(e) {
+                console.error('media error', e);
+            }
+
+            var videosContainer = document.getElementById('videos-container');
+            var index = 1;
+        </script>
+
     {% style "/css/bootstrap-theme.min.css" %}
     {% style "/css/bootstrap.min.css" %}
     {% style "/css/screen.css" %}
