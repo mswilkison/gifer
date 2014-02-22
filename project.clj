@@ -32,13 +32,12 @@
   {:migrations ragtime.sql.files/migrations,
    :database
    (if (System/getenv "DATABASE_URL")
-     (let [db-spec (clojure.string/split (System/getenv "DATABASE_URL") #"[@:/]")]
-       (str (nth db-spec 5)
-            (nth db-spec 7)
-            "?user="
-            (nth db-spec 3)
-            "&password="
-            (nth db-spec 4)))
+     (str (nth (System/getenv "DATABASE_URL") 5)
+          (nth (System/getenv "DATABASE_URL") 7)
+          "?user="
+          (nth (System/getenv "DATABASE_URL") 3)
+          "&password="
+          (nth (System/getenv "DATABASE_URL") 4))
      "jdbc:postgresql://localhost/gifer?user=maclane&password=itftennis")}
   :profiles
   {:uberjar {:aot :all},
