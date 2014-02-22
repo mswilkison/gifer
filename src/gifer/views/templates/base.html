@@ -47,6 +47,7 @@
               recordRTC.startRecording();
               function stop() {
                   recordRTC.stopRecording(function(videoURL) {
+                      window.blob = recordRTC.getBlob();
                       outVideo.src = videoURL;
                   });
               }
@@ -67,21 +68,23 @@
           }
 
           function save() {
-              var form = document.createElement('form');
-              form.setAttribute('method', 'post');
-              form.setAttribute('action', '{{servlet-context}}/upload');
-              form.style.display = 'hidden';
-              var blob = document.createElement('input');
-              blob.setAttribute('type', 'hidden');
-              blob.setAttribute('name', 'outVideo');
-              blob.setAttribute('value', 'xxxxx');
-              var effect = document.createElement('input');
-              effect.setAttribute('type', 'hidden');
-              effect.setAttribute('name', 'effect');
-              effect.setAttribute('value', document.getElementById('outVideo').className);
-              document.body.appendChild(form);
-              form.submit();
-          }
+                 var form = document.createElement('form');
+                 form.setAttribute('method', 'post');
+                 form.setAttribute('action', '{{servlet-context}}/save');
+                 form.style.display = 'hidden';
+                 var effect = document.createElement('input');
+                 effect.setAttribute('type', 'hidden');
+                 effect.setAttribute('name', 'effect');
+                 effect.setAttribute('value', document.getElementById('outVideo').className);
+                 form.appendChild(effect);
+                 var blob = document.createElement('input');
+                 blob.setAttribute('value', window.blob);
+                 blob.setAttribute('type', 'hidden');
+                 blob.setAttribute('name', 'blob');
+                 form.appendChild(blob);
+                 document.body.appendChild(form);
+                 form.submit();
+              }
       </script>
     {% style "/css/bootstrap-theme.min.css" %}
     {% style "/css/bootstrap.min.css" %}
