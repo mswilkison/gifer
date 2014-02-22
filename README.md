@@ -1,19 +1,9 @@
-# gifer
+# GIFer
 
-FIXME
+GIFer is a web app that lets you create and share "selfie" gifs.
 
-## Prerequisites
+Become the next internet meme sensation - it's your destiny!
 
-You will need [Leiningen][1] 2.0 or above installed.
+# License
 
-[1]: https://github.com/technomancy/leiningen
-
-## Running
-
-To start a web server for the application, run:
-
-    lein ring server
-
-## License
-
-Copyright © 2014 FIXME
+Steal/change/modify/plagiarize this under every license that has ever existed/currently exists/may exist in the future.

@@ -7,25 +7,38 @@
           alert("click!");
         }
     </script>
+      {% script "/js/MediaStreamRecorder.js" %}
     <script>
     function initStream() {
-        navigator.getUserMedia = navigator.getUserMedia ||
-                                 navigator.webkitGetUserMedia ||
-                                 navigator.mozGetUserMedia ||
-                                 navigator.msGetUserMedia;
-
-        var video = document.querySelector('video');
-        var startButton = document.getElementById('startButton');
-
-        var mediaConstraints = {
+       var mediaConstraints = {
             video: true
         };
 
-        var successCallback = function(stream) {
-            video.src = window.URL.createObjectURL(stream);
+        var videosContainer = document.getElementById('video-container');
+
+        function successCallback(stream) {
+            var inVideo = document.createElement('video');
+            inVideo.src = window.URL.createObjectURL(stream);
+            inVideo.play();
+            videosContainer.appendChild(inVideo);
+
+            var mediaRecorder = new MediaStreamRecorder(stream);
+
+            mediaRecorder.mimeType = 'image/gif';
+
+            mediaRecorder.videoWidth = 320;
+            mediaRecorder.videoHeight = 240;
+
+            mediaRecorder.ondataavailable = function(blob) {
+                var outVideo = document.createElement('video');
+                outVideo.src = window.URL.createObjectURL(blob);
+                videosContainer.appendChild(outVideo);
+            };
+
+            mediaRecorder.start(3000);
         };
 
-        var errorCallback = function(e) {
+        function errorCallback(e) {
           console.log("Failed to create video stream!", e);
         };
 
