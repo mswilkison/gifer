@@ -70,14 +70,20 @@
               <script>
             var video = document.querySelector('video');
 
-            function initStream() {
+            var videosContainer = document.getElementById('videos-container');
             var mediaConstraints = { video: true };
             navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
             function onMediaSuccess(stream) {
+                window.stream = stream;
                 video.src = URL.createObjectURL(stream);
                 videosContainer.appendChild(document.createElement('hr'));
+           }
 
-                var mediaRecorder = new MediaStreamRecorder(stream);
+            function onMediaError(e) {
+                console.error('media error', e);
+            }
+            function record() {
+                var mediaRecorder = new MediaStreamRecorder(window.stream);
                 mediaRecorder.mimeType = 'video/webm'; // this line is mandatory
                 mediaRecorder.ondataavailable = function(blob) {
                     var outVideo = document.createElement('video');
@@ -91,14 +97,6 @@
 
                 // get blob after each 5 second!
                 mediaRecorder.start(5 * 1000);
-            }
-
-            function onMediaError(e) {
-                console.error('media error', e);
-            }
-
-            var videosContainer = document.getElementById('videos-container');
-            var index = 1;
             }
         </script>
 <script>
