@@ -80,13 +80,12 @@
                 var mediaRecorder = new MediaStreamRecorder(stream);
                 mediaRecorder.mimeType = 'video/webm'; // this line is mandatory
                 mediaRecorder.ondataavailable = function(blob) {
-                    var a = document.createElement('a');
-                    a.target = '_blank';
-                    a.innerHTML = 'Open Recorded Video No. ' + (index++);
+                    var outVideo = document.createElement('video');
+                    outVideo.class = 'outVideo';
+                    outVideo.src = URL.createObjectURL(blob);
+                    outVideo.play();
 
-                    a.href = URL.createObjectURL(blob);
-
-                    videosContainer.appendChild(a);
+                    videosContainer.appendChild(outVideo);
                     videosContainer.appendChild(document.createElement('hr'));
                 };
 
