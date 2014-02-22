@@ -6,7 +6,12 @@
         <video id="inVideo" autoplay></video>
         <video id="outVideo" autoplay loop></video>
      </div>
-    <button onclick="record()" id="startButton" class="btn btn-success btn-lg">Record GIF</button>
+     <button onclick="record()" class="btn btn-success btn-lg">Record GIF</button>
+     <p class="inline" {%if not user-id %}data-toggle="tooltip" data-placement="right"
+          title="You gotta log in to do that!"{% endif %}>
+         <button onclick="save()" class="btn btn-info btn-lg"
+                 {% if not user-id %}disabled="disabled"{% endif %}>Finalize & Save</button>
+     </p>
   </div>
 
   <div class="row-fluid">

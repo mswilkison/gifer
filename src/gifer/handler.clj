@@ -1,7 +1,7 @@
 (ns gifer.handler
   (:require [compojure.core :refer [defroutes]]
             [gifer.routes.home :refer [home-routes]]
-            [gifer.routes.export :refer [export-routes]]
+            [gifer.routes.save :refer [save-routes]]
             [gifer.middleware :as middleware]
             [noir.util.middleware :refer [app-handler]]
             [compojure.route :as route]
@@ -44,7 +44,7 @@
 
 (def app
  (app-handler
-   [auth-routes home-routes export-routes app-routes]
+   [auth-routes home-routes save-routes app-routes]
    :middleware
    [middleware/template-error-page middleware/log-request]
    :access-rules

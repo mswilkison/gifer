@@ -2,49 +2,7 @@
 <html>
   <head>
     <title>Welcome to gifer</title>
-<!--    <script>
-    function initStream() {
-       var mediaConstraints = {
-            video: true
-        };
-
-        var videosContainer = document.getElementById('videos-container');
-
-        var successCallback = function(stream) {
-            var inVideo = document.createElement('video');
-            inVideo.src = window.URL.createObjectURL(stream);
-            inVideo.play();
-            videosContainer.appendChild(inVideo);
-
-            var mediaRecorder = new MediaRecorder(stream);
-
-            mediaRecorder.mimeType = 'image/gif';
-
-            mediaRecorder.videoWidth = 320;
-            mediaRecorder.videoHeight = 240;
-
-            mediaRecorder.ondataavailable = function(blob) {
-                var outVideo = document.createElement('video');
-                outVideo.src = window.URL.createObjectURL(blob);
-                videosContainer.appendChild(outVideo);
-            };
-
-            mediaRecorder.start(3000);
-        };
-
-        var errorCallback = function(e) {
-          console.log("Failed to create video stream!", e);
-        };
-
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
-        }
-    }
-    </script>
--->
-
-        <script src="//www.webrtc-experiment.com/RecordRTC.js"> </script>
-
+    <script src="//www.webrtc-experiment.com/RecordRTC.js"> </script>
   </head>
   <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -63,12 +21,6 @@
       </div>
     </div>
    <div class="container">
-      {% if not user-id %}
-      <div class="alert alert-warning alert-dismissable">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          Your grandkids are gonna wanna see this! Log in to save your GIFs for posterity, or dodge the NSA by continuing to GIF anonymously.
-      </div>
-      {% endif %}
       {% block content %}
       {% endblock %}
     </div>
@@ -112,6 +64,23 @@
               if (effect) {
                   el.classList.add(effect);
               }
+          }
+
+          function save() {
+              var form = document.createElement('form');
+              form.setAttribute('method', 'post');
+              form.setAttribute('action', '{{servlet-context}}/upload');
+              form.style.display = 'hidden';
+              var blob = document.createElement('input');
+              blob.setAttribute('type', 'hidden');
+              blob.setAttribute('name', 'outVideo');
+              blob.setAttribute('value', 'xxxxx');
+              var effect = document.createElement('input');
+              effect.setAttribute('type', 'hidden');
+              effect.setAttribute('name', 'effect');
+              effect.setAttribute('value', document.getElementById('outVideo').className);
+              document.body.appendChild(form);
+              form.submit();
           }
       </script>
     {% style "/css/bootstrap-theme.min.css" %}
