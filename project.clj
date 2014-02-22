@@ -31,14 +31,7 @@
   :ragtime
   {:migrations ragtime.sql.files/migrations,
    :database
-   (if (System/getenv "DATABASE_URL")
-     (str (nth (System/getenv "DATABASE_URL") 5)
-          (nth (System/getenv "DATABASE_URL") 7)
-          "?user="
-          (nth (System/getenv "DATABASE_URL") 3)
-          "&password="
-          (nth (System/getenv "DATABASE_URL") 4))
-     "jdbc:postgresql://localhost/gifer?user=maclane&password=itftennis")}
+    "jdbc:postgresql://ec2-54-225-101-202.compute-1.amazonaws.com/de8v4smriv7gee?user=eijrwwtxcsbneq&password=RO5bXP3kSPqgdSiNX5Lnj6g8Ua"}
   :profiles
   {:uberjar {:aot :all},
    :production
