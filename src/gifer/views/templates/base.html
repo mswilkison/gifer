@@ -68,29 +68,17 @@
     </div>
     <!-- scripts and styles -->
               <script>
+            var video = document.querySelector('video');
+
+            function initStream() {
             var mediaConstraints = { video: true };
             navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
-
             function onMediaSuccess(stream) {
-                var video = document.createElement('video');
-
-                var videoWidth = 320;
-                var videoHeight = 240;
-
-                video = mergeProps(video, {
-                    width: videoWidth,
-                    height: videoHeight,
-                    src: URL.createObjectURL(stream)
-                });
-                video.play();
-
-                videosContainer.appendChild(video);
+                video.src = URL.createObjectURL(stream);
                 videosContainer.appendChild(document.createElement('hr'));
 
                 var mediaRecorder = new MediaStreamRecorder(stream);
-                mediaRecorder.mimeType = 'image/gif'; // this line is mandatory
-                mediaRecorder.videoWidth  = videoWidth;
-                mediaRecorder.videoHeight = videoHeight;
+                mediaRecorder.mimeType = 'video/webm'; // this line is mandatory
                 mediaRecorder.ondataavailable = function(blob) {
                     var a = document.createElement('a');
                     a.target = '_blank';
@@ -112,8 +100,26 @@
 
             var videosContainer = document.getElementById('videos-container');
             var index = 1;
+            }
         </script>
+<script>
+var idx = 0;
+var filters = ['grayscale', 'sepia', 'blur', 'brightness',
+               'contrast', 'hue-rotate', 'hue-rotate2',
+               'hue-rotate3', 'saturate', 'invert', ''];
 
+function changeFilter(e) {
+  var el = e.target;
+  el.className = '';
+  var effect = filters[idx++ % filters.length]; // loop through filters.
+  if (effect) {
+    el.classList.add(effect);
+  }
+}
+
+document.querySelector('video').addEventListener(
+    'click', changeFilter, false);
+</script>
     {% style "/css/bootstrap-theme.min.css" %}
     {% style "/css/bootstrap.min.css" %}
     {% style "/css/screen.css" %}
