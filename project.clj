@@ -31,7 +31,7 @@
   :ragtime
   {:migrations ragtime.sql.files/migrations,
    :database
-   "jdbc:postgresql://localhost/gifer?user=db_user_name_here&password=db_user_password_here"}
+   "jdbc:postgresql://localhost/gifer?user=maclane&password=itftennis"}
   :profiles
   {:uberjar {:aot :all},
    :production
