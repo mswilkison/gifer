@@ -1,14 +1,13 @@
 {% extends "gifer/views/templates/base.html" %}
 {% block content %}
-  <div class="jumbotron">
+ <div class="jumbotron" onload="initStream()";>
     <h1>Welcome to gifer</h1>
-    <p>Time to start building your site!</p>
-    <p><a class="btn btn-primary btn-lg" href="http://luminusweb.net">Learn more &raquo;</a></p>
+    <video autoplay></video>
+    <button onclick="initStream()" id="startButton" class="btn btn-primary btn-lg">Get GIFin'</button>
   </div>
 
   <div class="row-fluid">
     <div class="span8">
-    {{content|safe}}
     </div>
   </div>
 {% endblock %}

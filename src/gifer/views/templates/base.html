@@ -2,6 +2,39 @@
 <html>
   <head>
     <title>Welcome to gifer</title>
+    <script>
+        function myFunction() {
+          alert("click!");
+        }
+    </script>
+    <script>
+    function initStream() {
+        navigator.getUserMedia = navigator.getUserMedia ||
+                                 navigator.webkitGetUserMedia ||
+                                 navigator.mozGetUserMedia ||
+                                 navigator.msGetUserMedia;
+
+        var video = document.querySelector('video');
+        var startButton = document.getElementById('startButton');
+
+        var mediaConstraints = {
+            video: true
+        };
+
+        var successCallback = function(stream) {
+            video.src = window.URL.createObjectURL(stream);
+        };
+
+        var errorCallback = function(e) {
+          console.log("Failed to create video stream!", e);
+        };
+
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+        }
+    }
+    </script>
+
   </head>
   <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -35,5 +68,5 @@
         $("#{{selected-page}}").addClass("active");
       });
     </script>
-    </body>
+  </body>
 </html>
