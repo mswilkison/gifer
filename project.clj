@@ -31,7 +31,9 @@
   :ragtime
   {:migrations ragtime.sql.files/migrations,
    :database
-   "jdbc:postgresql://localhost/gifer?user=maclane&password=itftennis"}
+   (str "jdbc:"
+    (or (System/getenv "DATABASE_URL")
+        "postgresql://localhost/gifer?user=maclane&password=itftennis"))}
   :profiles
   {:uberjar {:aot :all},
    :production
