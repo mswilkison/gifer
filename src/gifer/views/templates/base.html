@@ -43,7 +43,7 @@
     </script>
 -->
 
-        <script src="//www.webrtc-experiment.com/MediaStreamRecorder.js"> </script>
+        <script src="//www.webrtc-experiment.com/RecordRTC.js"> </script>
 
   </head>
   <body>
@@ -68,14 +68,15 @@
     </div>
     <!-- scripts and styles -->
               <script>
-            var video = document.querySelector('video');
+            var inVideo = document.getElementById('inVideo');
+            var outVideo = document.getElementById('outVideo');
 
             var videosContainer = document.getElementById('videos-container');
             var mediaConstraints = { video: true };
             navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
             function onMediaSuccess(stream) {
                 window.stream = stream;
-                video.src = URL.createObjectURL(stream);
+                inVideo.src = URL.createObjectURL(stream);
                 videosContainer.appendChild(document.createElement('hr'));
            }
 
@@ -83,20 +84,15 @@
                 console.error('media error', e);
             }
             function record() {
-                var mediaRecorder = new MediaStreamRecorder(window.stream);
-                mediaRecorder.mimeType = 'video/webm'; // this line is mandatory
-                mediaRecorder.ondataavailable = function(blob) {
-                    var outVideo = document.createElement('video');
-                    outVideo.class = 'outVideo';
-                    outVideo.src = URL.createObjectURL(blob);
-                    outVideo.play();
-
-                    videosContainer.appendChild(outVideo);
-                    videosContainer.appendChild(document.createElement('hr'));
-                };
-
-                // get blob after each 5 second!
-                mediaRecorder.start(5 * 1000);
+                var options = { type: 'video' };
+                var recordRTC = RecordRTC(window.stream, options);
+                recordRTC.startRecording();
+                function stop() {
+                    recordRTC.stopRecording(function(videoURL) {
+                        outVideo.src = videoURL;
+                    });
+                }
+                setTimeout(stop, 5000);
             }
         </script>
 <script>
@@ -114,7 +110,7 @@ function changeFilter(e) {
   }
 }
 
-document.querySelector('video').addEventListener(
+document.getElementById('outVideo').addEventListener(
     'click', changeFilter, false);
 </script>
     {% style "/css/bootstrap-theme.min.css" %}
