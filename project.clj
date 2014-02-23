@@ -31,7 +31,7 @@
   :ragtime
   {:migrations ragtime.sql.files/migrations,
    :database
-    "jdbc:postgresql://ec2-54-225-101-202.compute-1.amazonaws.com/de8v4smriv7gee?user=eijrwwtxcsbneq&password=RO5bXP3kSPqgdSiNX5Lnj6g8Ua"}
+    "jdbc:postgresql://ec2-54-197-251-18.compute-1.amazonaws.com/dddc8orr8dtrel?user=dxixuwsmrniqhl&password=C6jucrKNGTA1wRd0-ap1JStVx6"}
   :profiles
   {:uberjar {:aot :all},
    :production
