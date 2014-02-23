@@ -24,11 +24,13 @@
                  (where {:id id})
                  (limit 1))))
 
-(defn add-gif [id gname]
-  (transaction
-    (if (empty? (select images
-                        (where {:id id :gname gname})
-                        (limit 1)))
-      (insert images (values {:id id :gname gname}))
-      (throw
-        (Exception. "you have already uploaded this image")))))
+(defn add-gif [id b64string effect]
+  (insert gifs (values {:id id :b64string b64string :effect effect})))
+
+(defn gifs-by-user [id]
+  (select gifs
+          (where {:id id})))
+
+(defn get-all-gifs []
+  (select gifs
+          (limit 30)))

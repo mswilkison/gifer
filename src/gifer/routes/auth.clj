@@ -5,6 +5,7 @@
             [noir.response :as resp]
             [noir.validation :as vali]
             [noir.util.crypt :as crypt]
+            [ring.util.codec :refer [base64-decode]]
             [gifer.models.db :as db]))
 
 (defn valid? [id pass pass1]
@@ -39,7 +40,8 @@
 (defn profile []
   (layout/render
     "profile.html"
-    {:user (db/get-user (session/get :user-id))}))
+    {:user (db/get-user (session/get :user-id))
+     :gifs (db/gifs-by-user (session/get :user-id))}))
 
 (defn update-profile [{:keys [first-name last-name email]}]
   (db/update-user (session/get :user-id) first-name last-name email)
@@ -63,9 +65,9 @@
         (handle-registration id pass pass1))
 
   (GET "/profile" [] (profile))
-  
+
   (POST "/update-profile" {params :params} (update-profile params))
-  
+
   (POST "/login" [id pass]
         (handle-login id pass))
 

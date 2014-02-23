@@ -1,4 +1,4 @@
 CREATE TABLE gifs
 (id VARCHAR(20),
- gid INT,
- PRIMARY KEY(id, gid));
+ b64string TEXT,
+ effect VARCHAR(30));

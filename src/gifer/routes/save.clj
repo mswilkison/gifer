@@ -10,8 +10,9 @@
             [gifer.util :refer [gallery-path]]
             [gifer.models.db :as db]))
 
-(defn handle-upload [blob effect]
+(defn handle-upload [b64string effect]
+  (db/add-gif (session/get :user-id) b64string effect)
   (resp/redirect "/"))
 
 (defroutes save-routes
-  (POST "/save" [blob effect] (handle-upload blob effect)))
+  (POST "/save" [b64string effect] (handle-upload b64string effect)))

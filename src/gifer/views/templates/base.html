@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>Welcome to gifer</title>
-    <script src="//www.webrtc-experiment.com/RecordRTC.js"> </script>
+    <title>Welcome to Internet Famous</title>
+      {% script "/js/RecordRTC.js" %}
   </head>
   <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -13,7 +13,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{servlet-context}}/">gifer</a>
+          <a class="navbar-brand" href="{{servlet-context}}/">Internet Famous</a>
         </div>
         {% block menu %}
           {% include "gifer/views/templates/menu.html" %}
@@ -68,6 +68,8 @@
           }
 
           function save() {
+              var reader = new FileReader();
+              reader.onloadend = function() {
                  var form = document.createElement('form');
                  form.setAttribute('method', 'post');
                  form.setAttribute('action', '{{servlet-context}}/save');
@@ -77,14 +79,16 @@
                  effect.setAttribute('name', 'effect');
                  effect.setAttribute('value', document.getElementById('outVideo').className);
                  form.appendChild(effect);
-                 var blob = document.createElement('input');
-                 blob.setAttribute('value', window.blob);
-                 blob.setAttribute('type', 'hidden');
-                 blob.setAttribute('name', 'blob');
-                 form.appendChild(blob);
+                 var b64string = document.createElement('input');
+                 b64string.setAttribute('value', reader.result);
+                 b64string.setAttribute('type', 'hidden');
+                 b64string.setAttribute('name', 'b64string');
+                 form.appendChild(b64string);
                  document.body.appendChild(form);
                  form.submit();
               }
+              reader.readAsDataURL(window.blob);
+          }
       </script>
     {% style "/css/bootstrap-theme.min.css" %}
     {% style "/css/bootstrap.min.css" %}
