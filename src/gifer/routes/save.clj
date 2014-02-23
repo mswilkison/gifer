@@ -12,7 +12,7 @@
 
 (defn handle-upload [b64string effect]
   (db/add-gif (session/get :user-id) b64string effect)
-  (resp/redirect "/"))
+  (resp/redirect "/profile"))
 
 (defroutes save-routes
   (POST "/save" [b64string effect] (handle-upload b64string effect)))
